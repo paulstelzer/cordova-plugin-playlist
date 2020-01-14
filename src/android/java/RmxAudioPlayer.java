@@ -112,7 +112,7 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
         Log.i(TAG, "Error generating onPrevious status message: " + e.toString());
     }
 
-    onStatus(RmxAudioStatusMessage.RMX_STATUS_SKIP_BACK, trackId, param);
+    onStatus(RmxAudioStatusMessage.RMXSTATUS_SEEK_BACKWARD, trackId, param);
   }
 
   @Override
@@ -126,7 +126,7 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
     } catch (JSONException e) {
         Log.i(TAG, "Error generating onNext status message: " + e.toString());
     }
-    onStatus(RmxAudioStatusMessage.RMX_STATUS_SKIP_FORWARD, trackId, param);
+    onStatus(RmxAudioStatusMessage.RMXSTATUS_SEEK_FORWARD, trackId, param);
   }
 
   @Override
