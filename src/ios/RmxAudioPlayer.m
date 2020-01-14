@@ -948,8 +948,8 @@ static char kPlayerItemTimeRangesContext;
     nowPlayingInfoCenter.nowPlayingInfo = _updatedNowPlayingInfo;
 
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
-    [commandCenter.skipForwardCommand setEnabled:!self.isAtEnd];
-    [commandCenter.skipBackwardCommand setEnabled:!self.isAtBeginning];
+    [commandCenter.skipForwardCommand setEnabled:true];
+    [commandCenter.skipBackwardCommand setEnabled:true];
 }
 
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri {
