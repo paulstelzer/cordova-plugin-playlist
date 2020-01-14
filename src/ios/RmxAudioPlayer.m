@@ -584,7 +584,7 @@ static char kPlayerItemTimeRangesContext;
                                 @"currentIndex": @([self avQueuePlayer].currentIndex),
                                 @"currentItem": [playerItem toDict]
                                 };
-        [self onStatus:RMX_STATUS_SKIP_BACK trackId:playerItem.trackId param:param];
+        [self onStatus:RMX_STATUS_SEEK trackId:playerItem.trackId param:param];
     }
 }
 
@@ -604,7 +604,7 @@ static char kPlayerItemTimeRangesContext;
                                 @"currentIndex": @([self avQueuePlayer].currentIndex),
                                 @"currentItem": [playerItem toDict]
                                 };
-        [self onStatus:RMX_STATUS_SKIP_FORWARD trackId:playerItem.trackId param:param];
+        [self onStatus:RMX_STATUS_SEEK trackId:playerItem.trackId param:param];
     }
 }
 
