@@ -574,7 +574,8 @@ static char kPlayerItemTimeRangesContext;
     [self initializeMPCommandCenter];
 
     // [[self avQueuePlayer] playPreviousItem];
-    float seekToPosition = 0.0f;
+    float currentPosition = [self getTrackCurrentTime:nil];
+    float seekToPosition = currentPosition - 15;
     [self seekTo:seekToPosition isCommand:NO];
 
     if (isCommand) {
@@ -596,7 +597,8 @@ static char kPlayerItemTimeRangesContext;
     [self initializeMPCommandCenter];
 
     // [[self avQueuePlayer] advanceToNextItem];
-    float seekToPosition = 0.0f;
+    float currentPosition = [self getTrackCurrentTime:nil];
+    float seekToPosition = currentPosition + 15;
     [self seekTo:seekToPosition isCommand:NO];
 
     if (isCommand) {
