@@ -574,6 +574,8 @@ static char kPlayerItemTimeRangesContext;
     [self initializeMPCommandCenter];
 
     // [[self avQueuePlayer] playPreviousItem];
+    float seekToPosition = 0.0f;
+    [self seekTo:seekToPosition isCommand:NO];
 
     if (isCommand) {
         NSString * action = @"music-controls-skip-backward";
@@ -584,7 +586,7 @@ static char kPlayerItemTimeRangesContext;
                                 @"currentIndex": @([self avQueuePlayer].currentIndex),
                                 @"currentItem": [playerItem toDict]
                                 };
-        [self onStatus:RMX_STATUS_SEEK trackId:playerItem.trackId param:param];
+        [self onStatus:RMXSTATUS_SEEK_BACKWARD trackId:playerItem.trackId param:param];
     }
 }
 
@@ -594,6 +596,8 @@ static char kPlayerItemTimeRangesContext;
     [self initializeMPCommandCenter];
 
     // [[self avQueuePlayer] advanceToNextItem];
+    float seekToPosition = 0.0f;
+    [self seekTo:seekToPosition isCommand:NO];
 
     if (isCommand) {
         NSString * action = @"music-controls-skip-forward";
@@ -604,7 +608,7 @@ static char kPlayerItemTimeRangesContext;
                                 @"currentIndex": @([self avQueuePlayer].currentIndex),
                                 @"currentItem": [playerItem toDict]
                                 };
-        [self onStatus:RMX_STATUS_SEEK trackId:playerItem.trackId param:param];
+        [self onStatus:RMXSTATUS_SEEK_FORWARD trackId:playerItem.trackId param:param];
     }
 }
 
