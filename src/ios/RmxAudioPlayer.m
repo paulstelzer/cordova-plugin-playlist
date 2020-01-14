@@ -1267,10 +1267,17 @@ static char kPlayerItemTimeRangesContext;
         [commandCenter.playCommand addTarget:self action:@selector(playEvent:)];
         [commandCenter.pauseCommand setEnabled:true];
         [commandCenter.pauseCommand addTarget:self action:@selector(pauseEvent:)];
-        [commandCenter.skipForwardCommand setEnabled:true];
-        [commandCenter.skipForwardCommand addTarget:self action:@selector(skipForwardEvent:)];
-        [commandCenter.skipBackwardCommand setEnabled:true];
-        [commandCenter.skipBackwardCommand addTarget:self action:@selector(skipBackwardEvent:)];
+
+        MPSkipIntervalCommand *skipBackwardIntervalCommand = [commandCenter skipBackwardCommand];
+        [skipBackwardIntervalCommand setEnabled:YES];
+        [skipBackwardIntervalCommand addTarget:self action:@selector(skipBackwardEvent:)];
+        skipBackwardIntervalCommand.preferredIntervals = @[@(15)];
+
+        MPSkipIntervalCommand *skipForwardIntervalCommand = [commandCenter skipForwardCommand];
+        skipForwardIntervalCommand.preferredIntervals = @[@(15)]; 
+        [skipForwardIntervalCommand setEnabled:YES];
+        [skipForwardIntervalCommand addTarget:self action:@selector(skipForwardEvent:)];
+
         [commandCenter.togglePlayPauseCommand setEnabled:true];
         [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(togglePlayPauseTrackEvent:)];
 
