@@ -71,6 +71,12 @@
     <resource-file src="src/android/res/drawable/player_prev.png" target="res/drawable/player_prev.png" />
     <resource-file src="src/android/res/drawable/player_next.png" target="res/drawable/player_next.png" />
 
+    <resource-file src="src/android/res/drawable-xhdpi/player_prev.png" target="res/drawable-xhdpi/player_prev.png" />
+    <resource-file src="src/android/res/drawable-xhdpi/player_next.png" target="res/drawable-xhdpi/player_next.png" />
+
+    <resource-file src="src/android/res/drawable-xxhdpi/player_prev.png" target="res/drawable-xxhdpi/player_prev.png" />
+    <resource-file src="src/android/res/drawable-xxhdpi/player_next.png" target="res/drawable-xxhdpi/player_next.png" />
+
     <resource-file src="src/android/res/refs.xml" target="res/values/refs.xml" />
 
     <source-file src="src/android/java/data/AudioTrack.java" target-dir="src/com/rolamix/plugins/audioplayer/data/" />
