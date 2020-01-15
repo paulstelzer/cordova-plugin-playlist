@@ -68,6 +68,10 @@
 
     <resource-file src="src/android/res/drawable/img_playlist_notif_default.png" target="res/drawable/img_playlist_notif_default.png" />
     <resource-file src="src/android/res/drawable/img_playlist_artwork_default.png" target="res/drawable/img_playlist_artwork_default.png" />
+    <resource-file src="src/android/res/drawable/player_prev.png" target="res/drawable/player_prev.png" />
+    <resource-file src="src/android/res/drawable/player_next.png" target="res/drawable/player_next.png" />
+
+    <resource-file src="src/android/res/refs.xml" target="res/values/refs.xml" />
 
     <source-file src="src/android/java/data/AudioTrack.java" target-dir="src/com/rolamix/plugins/audioplayer/data/" />
     <source-file src="src/android/java/manager/PlaylistManager.java" target-dir="src/com/rolamix/plugins/audioplayer/manager/" />

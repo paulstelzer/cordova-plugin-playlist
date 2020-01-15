@@ -13,6 +13,7 @@ const filesToGenerate = [
   ['MainApplication.java'],
   ['AudioPlayerPlugin.java'],
   ['RmxAudioPlayer.java'],
+  ['notification', 'PlaylistNotificationProvider.java'],
   ['service', 'MediaService.java'],
   ['service', 'MediaImageProvider.java'],
 ];
