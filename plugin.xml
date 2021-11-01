@@ -60,7 +60,7 @@
          the plugin install/uninstall scripts manages this.
     -->
 
-    <dependency id="cordova-support-google-services" version="~1.2.0"/>
+    <dependency id="cordova-support-google-services" version="^1.3.0"/>
 
     <framework src="com.android.support:support-v4:27.+" />
     <framework src="com.android.support:support-media-compat:27.+" />
@@ -68,6 +68,16 @@
 
     <resource-file src="src/android/res/drawable/img_playlist_notif_default.png" target="res/drawable/img_playlist_notif_default.png" />
     <resource-file src="src/android/res/drawable/img_playlist_artwork_default.png" target="res/drawable/img_playlist_artwork_default.png" />
+    <resource-file src="src/android/res/drawable/player_prev.png" target="res/drawable/player_prev.png" />
+    <resource-file src="src/android/res/drawable/player_next.png" target="res/drawable/player_next.png" />
+
+    <resource-file src="src/android/res/drawable-xhdpi/player_prev.png" target="res/drawable-xhdpi/player_prev.png" />
+    <resource-file src="src/android/res/drawable-xhdpi/player_next.png" target="res/drawable-xhdpi/player_next.png" />
+
+    <resource-file src="src/android/res/drawable-xxhdpi/player_prev.png" target="res/drawable-xxhdpi/player_prev.png" />
+    <resource-file src="src/android/res/drawable-xxhdpi/player_next.png" target="res/drawable-xxhdpi/player_next.png" />
+
+    <resource-file src="src/android/res/refs.xml" target="res/values/refs.xml" />
 
     <source-file src="src/android/java/data/AudioTrack.java" target-dir="src/com/rolamix/plugins/audioplayer/data/" />
     <source-file src="src/android/java/manager/PlaylistManager.java" target-dir="src/com/rolamix/plugins/audioplayer/manager/" />

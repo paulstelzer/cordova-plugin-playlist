@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <drawable name="player_notification_previous">@drawable/player_prev</drawable>
+  <drawable name="player_notification_next">@drawable/player_next</drawable>
+</resources>

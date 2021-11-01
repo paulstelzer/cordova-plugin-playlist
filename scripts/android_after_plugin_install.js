@@ -13,6 +13,7 @@ const filesToGenerate = [
   ['MainApplication.java'],
   ['AudioPlayerPlugin.java'],
   ['RmxAudioPlayer.java'],
+  ['notification', 'PlaylistNotificationProvider.java'],
   ['service', 'MediaService.java'],
   ['service', 'MediaImageProvider.java'],
 ];
@@ -32,6 +33,7 @@ module.exports = function androidAfterPluginInstall(context) {
       const source = path.resolve(installedPluginPath, ...genFilePieces);
       const target = path.resolve(installedPluginPath, ...genFilePieces);
       doCodeGen(source, target, packageName, projectName);
+      console.log('Gen code done:', `${packageName}, ${source}`);
     });
 
     // Now that we have codegen'd the MainApplication file, we need to move it.

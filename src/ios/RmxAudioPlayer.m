@@ -568,6 +568,52 @@ static char kPlayerItemTimeRangesContext;
     }
 }
 
+- (void) skipBackwardSeconds:(BOOL)isCommand
+{
+    _wasPlayingInterrupted = NO;
+    [self initializeMPCommandCenter];
+
+    // [[self avQueuePlayer] playPreviousItem];
+    float currentPosition = [self getTrackCurrentTime:nil];
+    float seekToPosition = currentPosition - 15;
+    [self seekTo:seekToPosition isCommand:NO];
+
+    if (isCommand) {
+        NSString * action = @"music-controls-skip-backward";
+        NSLog(@"%@", action);
+
+        AudioTrack* playerItem = (AudioTrack*)[self avQueuePlayer].currentItem;
+        NSDictionary* param = @{
+                                @"currentIndex": @([self avQueuePlayer].currentIndex),
+                                @"currentItem": [playerItem toDict]
+                                };
+        [self onStatus:RMXSTATUS_SEEK_BACKWARD trackId:playerItem.trackId param:param];
+    }
+}
+
+- (void) skipForwardSeconds:(BOOL)isCommand
+{
+    _wasPlayingInterrupted = NO;
+    [self initializeMPCommandCenter];
+
+    // [[self avQueuePlayer] advanceToNextItem];
+    float currentPosition = [self getTrackCurrentTime:nil];
+    float seekToPosition = currentPosition + 15;
+    [self seekTo:seekToPosition isCommand:NO];
+
+    if (isCommand) {
+        NSString * action = @"music-controls-skip-forward";
+        NSLog(@"%@", action);
+
+        AudioTrack* playerItem = (AudioTrack *)[self avQueuePlayer].currentItem;
+        NSDictionary* param = @{
+                                @"currentIndex": @([self avQueuePlayer].currentIndex),
+                                @"currentItem": [playerItem toDict]
+                                };
+        [self onStatus:RMXSTATUS_SEEK_FORWARD trackId:playerItem.trackId param:param];
+    }
+}
+
 - (void) seekTo:(float)positionTime isCommand:(BOOL)isCommand
 {
     //Handle seeking with the progress slider on lockscreen or control center
@@ -671,28 +717,43 @@ static char kPlayerItemTimeRangesContext;
  *
  */
 
-- (void) playEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) playEvent:(MPRemoteCommandEvent *)event {
     [self playCommand:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) pauseEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) pauseEvent:(MPRemoteCommandEvent *)event {
     [self pauseCommand:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) togglePlayPauseTrackEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) togglePlayPauseTrackEvent:(MPRemoteCommandEvent *)event {
     if ([self avQueuePlayer].isPlaying) {
         [self pauseCommand:YES];
     } else {
         [self playCommand:YES];
     }
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) prevTrackEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) prevTrackEvent:(MPRemoteCommandEvent *)event {
     [self playPrevious:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) nextTrackEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) nextTrackEvent:(MPRemoteCommandEvent *)event {
     [self playNext:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
+}
+
+- (MPRemoteCommandHandlerStatus) skipForwardEvent:(MPRemoteCommandEvent *)event {
+    [self skipForwardSeconds:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
+}
+
+- (MPRemoteCommandHandlerStatus) skipBackwardEvent:(MPRemoteCommandEvent *)event {
+    [self skipBackwardSeconds:YES];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
 - (MPRemoteCommandHandlerStatus) changedThumbSliderOnLockScreen:(MPChangePlaybackPositionCommandEvent *)event {
@@ -889,8 +950,8 @@ static char kPlayerItemTimeRangesContext;
     nowPlayingInfoCenter.nowPlayingInfo = _updatedNowPlayingInfo;
 
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
-    [commandCenter.nextTrackCommand setEnabled:!self.isAtEnd];
-    [commandCenter.previousTrackCommand setEnabled:!self.isAtBeginning];
+    [commandCenter.skipForwardCommand setEnabled:true];
+    [commandCenter.skipBackwardCommand setEnabled:true];
 }
 
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri {
@@ -1206,10 +1267,17 @@ static char kPlayerItemTimeRangesContext;
         [commandCenter.playCommand addTarget:self action:@selector(playEvent:)];
         [commandCenter.pauseCommand setEnabled:true];
         [commandCenter.pauseCommand addTarget:self action:@selector(pauseEvent:)];
-        [commandCenter.nextTrackCommand setEnabled:true];
-        [commandCenter.nextTrackCommand addTarget:self action:@selector(nextTrackEvent:)];
-        [commandCenter.previousTrackCommand setEnabled:true];
-        [commandCenter.previousTrackCommand addTarget:self action:@selector(prevTrackEvent:)];
+
+        MPSkipIntervalCommand *skipBackwardIntervalCommand = [commandCenter skipBackwardCommand];
+        [skipBackwardIntervalCommand setEnabled:YES];
+        [skipBackwardIntervalCommand addTarget:self action:@selector(skipBackwardEvent:)];
+        skipBackwardIntervalCommand.preferredIntervals = @[@(15)];
+
+        MPSkipIntervalCommand *skipForwardIntervalCommand = [commandCenter skipForwardCommand];
+        skipForwardIntervalCommand.preferredIntervals = @[@(15)]; 
+        [skipForwardIntervalCommand setEnabled:YES];
+        [skipForwardIntervalCommand addTarget:self action:@selector(skipForwardEvent:)];
+
         [commandCenter.togglePlayPauseCommand setEnabled:true];
         [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(togglePlayPauseTrackEvent:)];
 
@@ -1443,8 +1511,8 @@ static char kPlayerItemTimeRangesContext;
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     [commandCenter.playCommand removeTarget:self];
     [commandCenter.pauseCommand removeTarget:self];
-    [commandCenter.nextTrackCommand removeTarget:self];
-    [commandCenter.previousTrackCommand removeTarget:self];
+    [commandCenter.skipForwardCommand removeTarget:self];
+    [commandCenter.skipBackwardCommand removeTarget:self];
     [commandCenter.togglePlayPauseCommand removeTarget:self];
 
     // if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0) {

@@ -24,6 +24,8 @@ public interface RmxConstants {
   String SKIP_FORWARD           = "skipForward";
   String SKIP_BACK              = "skipBack";
   String SEEK                   = "seekTo";
+  String SEEK_FORWARD           = "seekForward";
+  String SEEK_BACKWARD          = "seekBackward";
   String SEEK_TO_QUEUE_POSITION = "seekToQueuePosition";
   String SET_PLAYBACK_RATE      = "setPlaybackRate";
   String SET_PLAYBACK_VOLUME    = "setPlaybackVolume";

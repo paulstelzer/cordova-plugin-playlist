@@ -122,7 +122,14 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
      */
 
     @Override
+    public boolean isPreviousAvailable() {
+      return true;
+    }
+
+    @Override
     public boolean isNextAvailable() {
+      return true;
+      /*
         boolean isAtEnd = getCurrentPosition() + 1 >= getItemCount();
         boolean isConstrained = getCurrentPosition() + 1 >= 0 && getCurrentPosition() + 1 < getItemCount();
 
@@ -130,6 +137,7 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
             return loop;
         }
         return isConstrained;
+        */
     }
 
     @Override
@@ -148,47 +156,30 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
 
     @Override
     public AudioTrack previous() {
-        setCurrentPosition(Math.max(0, getCurrentPosition() -1));
-        AudioTrack prevItem = getCurrentItem();
+        AudioTrack currentItem = getCurrentItem();
 
         if (!previousInvoked) { // this command came from the notification, not the user
             Log.i(TAG, "PlaylistManager.previous: invoked via service.");
             if (mediaControlsListener.get() != null) {
-              mediaControlsListener.get().onPrevious(prevItem, getCurrentPosition());
+              mediaControlsListener.get().onPrevious(currentItem, getCurrentPosition());
             }
         }
 
         previousInvoked = false;
-        return prevItem;
+        return currentItem;
     }
 
     @Override
     public AudioTrack next() {
-        if (isNextAvailable()) {
-            setCurrentPosition(Math.min(getCurrentPosition() + 1, getItemCount()));
-        } else {
-            if (loop) {
-              setCurrentPosition(BasePlaylistManager.INVALID_POSITION);
-            } else {
-              setShouldStopPlaylist(true);
-              raiseAndCheckOnNext();
-              return null;
-            }
+      AudioTrack currentItem = getCurrentItem();
+      if (!nextInvoked) { // this command came from the notification, not the user
+        Log.i(TAG, "PlaylistManager.next: invoked via service.");
+        if (mediaControlsListener.get() != null) {
+          mediaControlsListener.get().onNext(currentItem, getCurrentPosition());
         }
-
-        raiseAndCheckOnNext();
-        return getCurrentItem();
-    }
-
-    private void raiseAndCheckOnNext() {
-        AudioTrack nextItem = getCurrentItem();
-        if (!nextInvoked) { // this command came from the notification, not the user
-            Log.i(TAG, "PlaylistManager.next: invoked via service.");
-            if (mediaControlsListener.get() != null) {
-              mediaControlsListener.get().onNext(nextItem, getCurrentPosition());
-            }
-        }
-        nextInvoked = false;
+      }
+      nextInvoked = false;
+      return currentItem;
     }
 
 

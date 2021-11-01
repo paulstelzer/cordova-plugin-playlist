@@ -85,6 +85,8 @@ export enum RmxAudioStatusMessage {
    * On iOS, the Command Center includes a seek bar so this will be reported when the user has seeked via Command Center.
    */
   RMXSTATUS_SEEK = 45,
+  RMXSTATUS_SEEK_FORWARD = 46,
+  RMXSTATUS_SEEK_BACKWARD = 47,
   /**
    * The reported track has completed playback.
    */

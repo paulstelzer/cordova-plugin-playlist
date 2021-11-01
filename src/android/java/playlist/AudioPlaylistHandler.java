@@ -147,6 +147,20 @@ public class AudioPlaylistHandler<I extends PlaylistItem, M extends BasePlaylist
         didSeekCatchup = true;
     }
 
+    @Override
+    public void next() {
+      MediaProgress progress = getCurrentMediaProgress();
+      Long position = progress.getPosition();
+      seek(position + 15000);
+    }
+  
+    @Override
+    public void previous() {
+      MediaProgress progress = getCurrentMediaProgress();
+      Long position = progress.getPosition();
+      seek(position - 15000);
+    }
+
     public static class Builder<I extends PlaylistItem, M extends BasePlaylistManager<I>> {
 
         Context context;
